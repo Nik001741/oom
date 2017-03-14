@@ -88,7 +88,7 @@ namespace task2
             return hilf + preis;
         }
 
-       
+
 
     }
 
@@ -99,7 +99,7 @@ namespace task2
             try
             {
                 Notebooks a = new Notebooks("E571", 300, "YSL234");
-                Console.WriteLine("Modellname: {0} ",a.Modell);
+                Console.WriteLine("Modellname: {0} ", a.Modell);
                 Console.WriteLine("Preis: {0} ", a.n_Preis);
                 Console.WriteLine("Seriennummer: {0} ", a.Seriennum);
 
@@ -107,8 +107,8 @@ namespace task2
 
                 Console.WriteLine("Preis + Mwst = {0}", neuerpreis);
             }
-           
-            catch(Exception e)
+
+            catch (Exception e)
             {
                 Console.WriteLine("Error: {0}", e.Message);
                 return;
