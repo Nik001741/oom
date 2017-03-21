@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace task3
 {
@@ -22,6 +23,7 @@ namespace task3
 
         private const double Mwst = 0.2;
 
+        [JsonConstructor]
         public Workstation(string newmodellname, double newpreis, string newseriennum)
         {
             if (newmodellname == null || newmodellname.Length == 0)
@@ -80,9 +82,11 @@ namespace task3
         }
 
         // Constructor
+
+            [JsonConstructor]
         public Notebooks(string newmodellname, double newpreis, string newseriennum)
         {
-            if (newmodellname == null || newmodellname.Length == 0)
+            /*if (newmodellname == null || newmodellname.Length == 0)
                 throw new Exception("Leerer Modellname");
 
             if (newseriennum == null || newseriennum.Length == 0)
@@ -90,7 +94,7 @@ namespace task3
 
             if (newpreis < 0.0)
                 throw new Exception("Negativer Preis");
-
+*/
             Modell = newmodellname;
             n_Preis = newpreis;
             Seriennum = newseriennum;
@@ -117,25 +121,24 @@ namespace task3
         {
             try
             {
-                var data = new Computer[] {
+                var data = new Notebooks[] {
                 new Notebooks("E571",300,"YSL234"),
-                new Notebooks("E751",800,"YSL234"),
-                new Workstation("P550",1500,"LSY456"),
-                new Workstation("P900",2200,"AKS795")
+                new Notebooks("E751",800,"YSL234")
             };
-                double neuerpreis;
 
-                foreach (var i in data)
-                {
-                    Console.WriteLine("Modellname: {0} ", i.Modell);
-                    Console.WriteLine("Preis: {0} ", i.n_Preis);
-                    Console.WriteLine("Seriennummer: {0} ", i.Seriennum);
-                    neuerpreis = i.MwstPreis();
-                    Console.WriteLine("Preis + Mwst = {0}", neuerpreis);
-                    i.Garantie(neuerpreis);
-                }
+                string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+
+               
 
 
+
+
+
+
+
+                 var newdata = JsonConvert.DeserializeObject<List<Notebooks>(json);
+
+                Console.WriteLine(newdata);
 
 
             }
