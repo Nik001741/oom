@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace task3
 {
@@ -10,7 +12,7 @@ namespace task3
     interface Computer
     {
         double MwstPreis();
-        double n_Preis { get; }
+        double N_Preis { get; }
         string Seriennum { get; }
         string Modell { get; }
         void Garantie(double preis);
@@ -22,9 +24,10 @@ namespace task3
 
         private const double Mwst = 0.2;
 
+        [JsonConstructor]
         public Workstation(string newmodellname, double newpreis, string newseriennum)
         {
-            if (newmodellname == null || newmodellname.Length == 0)
+           /* if (newmodellname == null || newmodellname.Length == 0)
                 throw new Exception("Leerer Modellname");
 
             if (newseriennum == null || newseriennum.Length == 0)
@@ -32,19 +35,19 @@ namespace task3
 
             if (newpreis < 0.0)
                 throw new Exception("Negativer Preis");
-
+*/
             Modell = newmodellname;
-            n_Preis = newpreis;
+            N_Preis = newpreis;
             Seriennum = newseriennum;
 
         }
 
         public double MwstPreis()
         {
-            double hilf = Mwst * n_Preis;
-            return hilf + n_Preis;
+            double hilf = Mwst * N_Preis;
+            return hilf + N_Preis;
         }
-        public double n_Preis { get; }
+        public double N_Preis { get; }
         public string Seriennum { get; }
         public string Modell { get; }
 
@@ -74,15 +77,17 @@ namespace task3
         {
             get;
         }
-        public double n_Preis
+        public double N_Preis
         {
             get;
         }
 
         // Constructor
+
+        [JsonConstructor]
         public Notebooks(string newmodellname, double newpreis, string newseriennum)
         {
-            if (newmodellname == null || newmodellname.Length == 0)
+    /*        if (newmodellname == null || newmodellname.Length == 0)
                 throw new Exception("Leerer Modellname");
 
             if (newseriennum == null || newseriennum.Length == 0)
@@ -90,9 +95,9 @@ namespace task3
 
             if (newpreis < 0.0)
                 throw new Exception("Negativer Preis");
-
+*/
             Modell = newmodellname;
-            n_Preis = newpreis;
+            N_Preis = newpreis;
             Seriennum = newseriennum;
 
         }
@@ -100,8 +105,8 @@ namespace task3
         // Methode
         public double MwstPreis()
         {
-            double hilf = Mwst * n_Preis;
-            return hilf + n_Preis;
+            double hilf = Mwst * N_Preis;
+            return hilf + N_Preis;
         }
 
         public void Garantie(double preis)
@@ -115,39 +120,31 @@ namespace task3
     {
         static void Main(string[] args)
         {
-            try
-            {
-                var data = new Computer[] {
+
+            var data = new Computer[] {
                 new Notebooks("E571",300,"YSL234"),
                 new Notebooks("E751",800,"YSL234"),
-                new Workstation("P550",1500,"LSY456"),
-                new Workstation("P900",2200,"AKS795")
-            };
-                double neuerpreis;
-
-                foreach (var i in data)
-                {
-                    Console.WriteLine("Modellname: {0} ", i.Modell);
-                    Console.WriteLine("Preis: {0} ", i.n_Preis);
-                    Console.WriteLine("Seriennummer: {0} ", i.Seriennum);
-                    neuerpreis = i.MwstPreis();
-                    Console.WriteLine("Preis + Mwst = {0}", neuerpreis);
-                    i.Garantie(neuerpreis);
-                }
+                new Workstation("P550",1300,"YLS234") };
 
 
+            var settings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+            var json = JsonConvert.SerializeObject(data, settings);
+            var directory = Directory.GetCurrentDirectory();
+            var filename = Path.Combine(directory, "computer.json");
+            File.WriteAllText(filename, json);
 
 
-            }
+            var jsonfile = File.ReadAllText(filename);
+            var newdata = JsonConvert.DeserializeObject<Computer[]>(jsonfile, settings);
 
-            catch (Exception e)
+            foreach (var i in newdata)
             {
-                Console.WriteLine("Error: {0}", e.Message);
-                return;
+                Console.WriteLine("{0}, {1}, {2}", i.Modell, i.N_Preis, i.Seriennum);
             }
-
 
 
         }
+
     }
 }
+
