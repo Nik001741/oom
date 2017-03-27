@@ -25,7 +25,7 @@ namespace task3
         private const double Mwst = 0.2;
 
         [JsonConstructor]
-        public Workstation(string newmodellname, double newpreis, string newseriennum)
+        public Workstation(string modell, double n_Preis, string seriennum)
         {
            /* if (newmodellname == null || newmodellname.Length == 0)
                 throw new Exception("Leerer Modellname");
@@ -36,9 +36,9 @@ namespace task3
             if (newpreis < 0.0)
                 throw new Exception("Negativer Preis");
 */
-            Modell = newmodellname;
-            N_Preis = newpreis;
-            Seriennum = newseriennum;
+            Modell = modell;
+            N_Preis = n_Preis;
+            Seriennum = seriennum;
 
         }
 
@@ -85,7 +85,7 @@ namespace task3
         // Constructor
 
         [JsonConstructor]
-        public Notebooks(string newmodellname, double newpreis, string newseriennum)
+        public Notebooks(string modell, double n_Preis, string seriennum)
         {
     /*        if (newmodellname == null || newmodellname.Length == 0)
                 throw new Exception("Leerer Modellname");
@@ -96,9 +96,9 @@ namespace task3
             if (newpreis < 0.0)
                 throw new Exception("Negativer Preis");
 */
-            Modell = newmodellname;
-            N_Preis = newpreis;
-            Seriennum = newseriennum;
+            Modell = modell;
+            N_Preis = n_Preis;
+            Seriennum = seriennum;
 
         }
 
